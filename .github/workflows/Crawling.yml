@@ -32,7 +32,11 @@ jobs:
       env:
         AUTH_CLIENTID: ${{ secrets.AUTH_CLIENTID }}
         AUTH_CLIENTSECRET: ${{ secrets.AUTH_CLIENTSECRET }}
-        AUTH_FIRESTORE: ${{ secrets.AUTH_FIRESTORE }}
       run: |
         python crawling.py > output.tmp
+        python push_firestore.py
+    - name: Push
+      env:
+        AUTH_FIRESTORE: ${{ secrets.AUTH_FIRESTORE }}
+      run: |
         python push_firestore.py
