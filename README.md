@@ -14,6 +14,12 @@ Naver Open API를 이용하여 '동탄'에 대한 블로그 검색을 하고 그
   - `AUTH_CLIENTSECRET` : Client Secret 값 입력
 
 
+## FireStore 인증
+현재는 `파일`만 지원
+
+- `AUTH_FIRESTORE.tmp`
+
+
 ## Python 환경
 
 - version : Python 3.x
@@ -24,6 +30,17 @@ $ pip install -r requirements.txt
 
 ## 실행
 
+- 최근 `동탄` 검색어 블로그 포스팅 200개 확인
 ```sh
-$ crawler.py
+$ ./crawler.py > output.tmp
+```
+
+- `output.tmp`에 저장된 포스팅을 firestore에 저장
+```sh
+$ ./push_firestore.py
+```
+
+- 저장된 포스팅에 대해서 labelling 작업
+```sh
+$ ./labelling.py
 ```

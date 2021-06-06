@@ -10,7 +10,8 @@ class Naver:
 
     AUTH_CLIENTID = "AUTH_CLIENTID"
     AUTH_CLIENTSECRET = "AUTH_CLIENTSECRET"
-
+    display = 100
+    sort = "date"
 
     def __init__(self):
         try:
@@ -42,12 +43,32 @@ class Naver:
         return item
 
 
-    def searchBlog(self, keyword):
-        url = f"https://openapi.naver.com/v1/search/blog?query={keyword}"
+    def searchBlog(self, keyword, MaxPage):
 
-        contents = requests.get(url, headers=self.headers)
+        page = 0
+        results = []
+        while True:
+            if( page >= MaxPage ):
+                break
 
-        return json.loads(contents.text)
+            start = 1 + (self.display * page)
+            url = f"https://openapi.naver.com/v1/search/blog.json?query={keyword}&display={self.display}&start={start}&sort={self.sort}"
+            #print(f"{url}")
+
+            contents = requests.get(url, headers=self.headers)
+
+            contents = json.loads(contents.text)
+
+            contents_count = len(contents['items'])
+            if( contents_count > 0 ):
+                results.extend(contents['items'])
+
+            if( contents_count < self.display ):
+                break
+
+            page += 1
+
+        return results
 
 
 
@@ -55,5 +76,5 @@ if __name__ == '__main__':
 
     naver = Naver()
 
-    contents = naver.searchBlog("동탄")
+    contents = naver.searchBlog("동탄", 2)
     print(json.dumps(contents, indent=2, ensure_ascii=False))
