@@ -34,7 +34,6 @@ jobs:
         AUTH_CLIENTSECRET: ${{ secrets.AUTH_CLIENTSECRET }}
       run: |
         python crawling.py > output.tmp
-        python push_firestore.py
     - name: Push
       env:
         AUTH_FIRESTORE: ${{ secrets.AUTH_FIRESTORE }}
