@@ -5,6 +5,8 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
+import os
+import sys
 import json
 
 if __name__ == '__main__':
@@ -13,7 +15,21 @@ if __name__ == '__main__':
         items = json.load(f)
 
 
-    cred = credentials.Certificate('AUTH_FIRESTORE.tmp')
+    item = os.getenv('AUTH_FIRESTORE', "")
+    if( item == "" ):
+        filepath = "AUTH_FIRESTORE.tmp"
+        if( os.path.isfile(filepath) ):
+            with open(filepath, 'r') as f:
+                item = json.load(f)
+
+    else:
+        item = json.loads(item)
+
+    if( item == "" ):
+        sys.exit("[Error] empty AUTH_FIRESTORE")
+
+
+    cred = credentials.Certificate(item)
     firebase_admin.initialize_app(cred)
     db = firestore.client()
 
