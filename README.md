@@ -1,3 +1,5 @@
+[![Crawling](https://github.com/whatwant-school/naver-dongtan-crawler/actions/workflows/Crawling.yml/badge.svg)](https://github.com/whatwant-school/naver-dongtan-crawler/actions/workflows/Crawling.yml)
+
 # Naver Dongtan Crawler
 Naver Open API를 이용하여 '동탄'에 대한 블로그 검색을 하고 그 결과를 저장
 
